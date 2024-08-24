@@ -11,19 +11,18 @@ import { CheckCircle2 } from "lucide-react";
 import { Link } from "next-view-transitions";
 
 export default function PaymentSuccessPage({
-    searchParams: { amount },
-  }: {
-    searchParams: { amount: string };
-  }) {
-
+  searchParams: { amount },
+}: {
+  searchParams: { amount: string };
+}) {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-slate-50">
-      <Card className="w-full max-w-md">
+    <div className="flex justify-center items-center min-h-screen bg-slate-50 p-4">
+      <Card className="w-full sm:max-w-md lg:max-w-lg">
         <CardHeader>
           <div className="flex justify-center mb-4">
             <CheckCircle2 className="h-16 w-16 text-green-500" />
           </div>
-          <CardTitle className="text-2xl text-center">
+          <CardTitle className="text-2xl md:text-3xl text-center">
             Payment Successful!
           </CardTitle>
           <CardDescription className="text-center">
@@ -40,7 +39,9 @@ export default function PaymentSuccessPage({
         </CardContent>
         <CardFooter className="flex justify-center space-x-4">
           <Button asChild>
-            <Link href="/">Return to Home</Link>
+            <Link href="/" className="py-2 px-4">
+              Return to Home
+            </Link>
           </Button>
         </CardFooter>
       </Card>

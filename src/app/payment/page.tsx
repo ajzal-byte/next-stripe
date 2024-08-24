@@ -11,7 +11,7 @@ import CheckoutPage from "@/components/ui/CheckoutPage";
 
 export default function PaymentPage() {
   const [amount, setAmount] = useState<number>(); //sate to manage the amount input value
-  const [stripeAmount, setStripeAmount] = useState<number>() //state to manage the stripe amount
+  const [stripeAmount, setStripeAmount] = useState<number>(); //state to manage the stripe amount
   const [paymentIntentCreated, setPaymentIntentCreated] = useState(false);
 
   const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
@@ -21,15 +21,15 @@ export default function PaymentPage() {
   const handleAmountSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setStripeAmount(amount)
+    setStripeAmount(amount);
 
     console.log("Creating payment intent for price:", stripeAmount);
     setPaymentIntentCreated(true);
   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="w-1/2 p-8">
+    <div className="flex flex-col lg:flex-row min-h-screen p-4 lg:p-8 gap-8">
+      <div className="w-full lg:w-1/2">
         <Card>
           <CardHeader>
             <CardTitle>Enter Amount</CardTitle>
@@ -43,30 +43,34 @@ export default function PaymentPage() {
                 onChange={(e) => setAmount(Number(e.target.value))}
                 required
                 min={0}
+                aria-label="Payment amount"
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className="">
+                Submit
+              </Button>
             </form>
           </CardContent>
         </Card>
       </div>
-      <div className="w-1/2 p-8">
+      <div className="w-full lg:w-1/2">
         {paymentIntentCreated && stripeAmount ? (
           <Card>
-          <CardHeader>
-            <CardTitle>Stripe Payment for ${stripeAmount}</CardTitle>
-          </CardHeader>
-          <Elements
-            stripe={stripePromise}
-            options={{
-              mode: "payment",
-              amount: convertToSubCurrency(stripeAmount),
-              currency: "usd",
-            }}
-          >
-            <CheckoutPage amount={stripeAmount} />
-          </Elements>
-        </Card>
-          
+            <CardHeader>
+              <CardTitle>Stripe Payment for ${stripeAmount}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Elements
+                stripe={stripePromise}
+                options={{
+                  mode: "payment",
+                  amount: convertToSubCurrency(stripeAmount),
+                  currency: "usd",
+                }}
+              >
+                <CheckoutPage amount={stripeAmount} />
+              </Elements>
+            </CardContent>
+          </Card>
         ) : (
           <Card>
             <CardHeader>
@@ -74,7 +78,6 @@ export default function PaymentPage() {
             </CardHeader>
             <CardContent>
               <div>
-                {/* Placeholder for Stripe component */}
                 <p>Please enter an amount to create a payment intent.</p>
               </div>
             </CardContent>
